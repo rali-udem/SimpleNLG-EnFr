@@ -1,0 +1,213 @@
+Modifications in version 1.1 of SimpleNLG-EnFr, compared to version 1.0.
+by Pierre-Luc Vaudry (vaudrypl)
+
+RALI, Université de Montréal
+email: vaudrypl@iro.umontreal.ca
+website: http://www-etud.iro.umontreal.ca/~vaudrypl/
+date: July 6, 2012
+--------------------------------------------------------------------------------
+
+This files lists all the places where I have made modifications to the source code of the initial version of SimpleNLG-EnFr in the course of making SimpleNLG-EnFr 1.1. For the exact changes, please look in the source files. I have left comments in the source code to indicate where I have made changes to the code coming from SimpleNLG 4.2.
+
+If you are working with Eclipse, you can unzip SimpleNLG-EnFr 1.0 and SimpleNLG-EnFr 1.1 in separate folders and create a new project from each. You can then select simultaneously both projects in Eclipse, click on the right mouse button and select in the contextual menu : Compare with... Each other. You can then browse all the modifications.
+
+This file is separated in two sections :
+	1) Modifications to 'src' directory
+	2) Modifications to 'testsrc' directory
+	3) Other modifications
+
+1 ) Modifications to 'src' directory
+--------------------------------------------------------------------------------
+
+simplenlg.features
+	added SUBJUNCTIVE value to Form enumerated type
+	added CONDITIONAL value to Tense enumerated type
+
+simplenlg.features.french
+	added features
+		FrenchFeature
+			RELATIVE_PHRASE
+		FrenchInternalFeature
+			RELATIVISED
+		FrenchLexicalFeature
+			SUBJUNCTIVE1S
+			SUBJUNCTIVE2S
+			SUBJUNCTIVE3S
+			SUBJUNCTIVE1P
+			SUBJUNCTIVE2P
+			SUBJUNCTIVE3P
+	
+simplenlg.framework
+	NLGElement
+		modified method
+			hasFeature(String featureName)
+		added method
+			hasRelativePhrase(DiscourseFunction function)
+	PhraseElement
+		modified methods
+			addFrontModifier(NLGElement newFrontModifier)
+			addFrontModifier(String newFrontModifier)
+			addPostModifier(NLGElement newPostModifier)
+			addPreModifier(NLGElement newPreModifier)
+		changed access level modifier from private to public
+			removeComplements(DiscourseFunction function)
+
+simplenlg.lexicon.french
+	modified default-french-lexicon.xml
+		mainly added subjunctive and aspired H features
+
+simplenlg.morphology.french
+	MorphologyRules
+		modified methods
+			addSuffix(String radical, String suffix)
+			buildFutureVerb(String radical, NumberAgreement number, Person person)
+			buildPresentVerb(String baseForm, NumberAgreement number, Person person)
+			doPronounMorphology(InflectedWordElement element)
+			doVerbMorphology(InflectedWordElement element, WordElement baseWord)
+			getFutureConditionalRadical(String baseForm)
+				becomes getFutureConditionalRadical(String baseForm, NLGElement element, NLGElement baseWord)
+		added methods
+			buildConditionalVerb(String radical, NumberAgreement number, Person person)
+			buildSubjunctiveVerb( String baseForm, NumberAgreement number, Person person)
+			getPresentRadical(String baseForm, NumberAgreement number, Person person)
+		added inner class
+			GetPresentRadicalReturn
+
+simplenlg.morphophonology.french
+	MorphophonologyRules
+		modified methods
+			beginsWithVowel(StringElement word)
+			doMorphophonology(StringElement leftWord, StringElement rightWord)
+
+simplenlg.phrasespec
+	NPPhraseSpec
+		modified method
+			setNounPhraseFeatures(NLGElement nounElement)
+		added method
+			setPronoun(Object pronoun)
+	SPhraseSpec
+		modified methods
+			setFeature(String featureName, boolean featureValue)
+			setSubject(Object subject)
+		added methods
+			clearComplements()
+			hasRelativePhrase(DiscourseFunction function)
+
+simplenlg.syntax
+	AbstractClauseHelper
+		modified methods
+			addInterrogativeFrontModifiers(PhraseElement phrase, ListElement realisedElement)
+			addPassiveSubjects(PhraseElement phrase, ListElement realisedElement, NLGFactory phraseFactory)
+			addSubjectsToFront(PhraseElement phrase, ListElement realisedElement, NLGElement splitVerb)
+			realise(PhraseElement phrase)
+	AbstractCoordinatedPhraseHelper
+		modified method
+			realise(CoordinatedPhraseElement phrase)
+
+simplenlg.syntax.english.nonstatic
+	ClauseHelper
+		modified method
+			realiseInterrogative(PhraseElement phrase, ListElement realisedElement, NLGFactory phraseFactory, NLGElement verbElement)
+	VerbPhraseHelper
+		modified methods
+			createVerbGroup(PhraseElement phrase)
+			pushFrontVerb(PhraseElement phrase,	Stack<NLGElement> vgComponents, NLGElement frontVG,	Object formValue, boolean interrogative)
+
+simplenlg.syntax.french
+	ClauseHelper
+		modified method
+			checkSubjectNumberPerson(PhraseElement phrase, NLGElement verbElement)
+		added methods
+			addComplementiser(PhraseElement phrase, ListElement realisedElement)
+			addPassiveComplementsNumberPerson(PhraseElement phrase, ListElement realisedElement, NLGElement verbElement)
+			addPassiveSubjects(PhraseElement phrase, ListElement realisedElement, NLGFactory phraseFactory)
+			addSubjectsToFront(PhraseElement phrase, ListElement realisedElement, NLGElement splitVerb)
+			changeSpecifier(NLGElement nounPhrase, NLGElement specifier)
+			realise(PhraseElement phrase)
+			realiseInterrogative(PhraseElement phrase, ListElement realisedElement, NLGFactory phraseFactory, NLGElement verbElement)
+	NounPhraseHelper
+		modified methods
+			addModifier(NPPhraseSpec nounPhrase, Object modifier)
+			realiseSpecifier(PhraseElement phrase, ListElement realisedElement)
+		added methods
+			isOrdinal(NLGElement element)
+			isOrdinal(String expression)
+	PhraseHelper
+		added method
+			realise(PhraseElement phrase)
+	VerbPhraseHelper
+		modified methods
+			checkIndirectObject(NLGElement element)
+			createVerbGroup(PhraseElement phrase)
+			insertCliticComplementPronouns(PhraseElement phrase, Stack<NLGElement> vgComponents)
+			pushFrontVerb(PhraseElement phrase,	Stack<NLGElement> vgComponents, NLGElement frontVG, Object formValue, boolean interrogative)
+			realiseComplements(PhraseElement phrase, ListElement realisedElement)
+		modified inner class
+			AddAuxiliaryReturn
+
+2 ) Modifications to 'testsrc' directory
+--------------------------------------------------------------------------------
+
+simplenlg.test.english
+	InterrogativeTest
+		modified method
+			testCoordinateVPQuestions()
+	SimpleNLG4TestBase
+		made all attributes static
+		now the lexicon is only loaded once for all test classes
+
+simplenlg.test.french
+	SimpleNLG4TestBase
+		made all attributes static
+		now the lexicon is only loaded once for all test classes
+		added method
+			realise(NLGElement element)
+	ClauseTest
+		modified methods
+			setUp()
+			testForm()
+			testPassive()
+			testReflexiveObjectAuxiliary() 
+			testSi()
+		added method
+			testSiTenses()
+	CoordinationTest
+		added method
+			testNoConjunction()
+	DocumentationTest
+		modified methods
+			testClause()
+			testVerbForms()
+		added methods
+			testInterrogative()
+			testRelativeClause()
+	NounPhraseTest
+		modified methods
+			testApostrophe()
+			testModifier()
+		added methods
+			testApiredH()
+			testOrdinalAdjectives()
+	SyntaxTests
+		added to test suite
+			InterrogativeTest
+			RelativeClauseTest
+	VerbPhraseTest
+		modified methods
+			testCoordination()
+			testSimplePast()
+		added method
+			testApiredH()
+	added test classes
+		ConjugationTest
+		InterrogativeTest (based on English counterpart)
+		RelativeClauseTest
+		
+			
+
+3) Other modifications
+--------------------------------------------------------------------------------
+This file and the French manual source 'SimpleNLG-EnFr_doc_francais.odt' were added to the docs directory.
+The French manual was modified and 'SimpleNLG-EnFr_doc_francais.pdf' was generated anew.
+The javadoc was generated anew.
+

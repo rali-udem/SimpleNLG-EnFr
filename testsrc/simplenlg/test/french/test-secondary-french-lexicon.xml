@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Secondary French lexicon for testing purposes
+     by Pierre-Luc Vaudry -->
+<lexicon>
+  <word>
+    <base>sourire</base>
+    <category>noun</category>
+    <gender>masculine</gender>
+  </word>
+  <word>
+    <base>ordinateur</base>
+    <category>noun</category>
+    <gender>masculine</gender>
+  </word>
+  <word>
+    <base>imprimante</base>
+    <category>noun</category>
+    <gender>feminine</gender>
+  </word>
+</lexicon>
+

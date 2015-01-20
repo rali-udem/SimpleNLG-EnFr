@@ -1,0 +1,270 @@
+Modifications made to SimpleNLG 4.2 to make SimpleNLG-EnFr
+by Pierre-Luc Vaudry (vaudrypl)
+
+RALI, Université de Montréal
+email: vaudrypl@iro.umontreal.ca
+website: http://www-etud.iro.umontreal.ca/~vaudrypl/
+date: August 16, 2011
+--------------------------------------------------------------------------------
+
+This files lists all the places where I have made modifications to the original source code of SimpleNLG 4.2 in the course of making SimpleNLG-EnFr. For the exact changes, please look in the source files. I have left comments in the source code to indicate where I have made changes.
+
+If you are working with Eclipse, you can unzip SimpleNLG 4.2 and SimpleNLG-EnFr in separate folders and create a new project from each. You can then select simultaneously both projects in Eclipse, click on the right mouse button and select in the contextual menu : Compare with... Each other. You can then browse all the modifications.
+
+This file is separated in two sections :
+	1) Modifications to 'src' directory
+	2) Modifications to 'testsrc' directory
+	3) Other modifications
+
+1 ) Modifications to 'src' directory
+--------------------------------------------------------------------------------
+packages added :
+	all *.french packages and classes belonging to those packages
+	simplenlg.lexicon.english package
+	simplenlg.syntax.english.nonstatic package
+		wich contains non static versions of the english syntax helpers
+	simplenlg.morphophonology and subpackages .french and .english
+
+The 'default-french-lexicon.xml' file was added to the new package :
+	simplenlg.lexicon.french
+
+classes added to existing packages :
+	simplenlg.morphology.AbstractMorphologyProcessor
+	simplenlg.morphology.MorphologyRulesInterface
+	simplenlg.framework.Language
+	simplenlg.lexicon.english.XMLLexicon
+	simplenlg.syntax.HelperInterface
+	simplenlg.syntax.CoordinatedPhraseHelperInterface
+
+changed access level modifier from private to protected :
+	simplenlg.lexicon.XMLLexicon.convertNodeToWord(Node wordNode)
+	simplenlg.lexicon.XMLLexicon.createLexicon(URI lexiconURI)
+	simplenlg.lexicon.XMLLexicon.updateIndex(WordElement word, String base,	Map<String, List<WordElement>> index)
+	simplenlg.lexicon.XMLLexicon.indexByVariant
+	
+fields added to existing classes:
+	simplenlg.lexicon.Lexicon.language
+	simplenlg.framework.WordElement.lexicon
+
+methods added to existing classes:
+	simplenlg.framework.NLGElement.realiseSyntax()
+	simplenlg.framework.NLGElement.realiseMorphology()
+	simplenlg.framework.NLGElement.realiseMorphology(List<NLGElement> elements)
+	static simplenlg.framework.NLGElement.countWords(List<NLGElement> elementList)
+	simplenlg.framework.NLGElement.countWords()
+	simplenlg.framework.InflectedWordElement.realiseMorphology()
+	simplenlg.framework.InflectedWordElement.realiseSyntax()
+	simplenlg.framework.WordElement.realiseMorphology()
+	simplenlg.framework.WordElement.realiseSyntax()
+	simplenlg.framework.DocumentElement.realiseSyntax()
+	simplenlg.framework.DocumentElement.realiseMorphology()
+	simplenlg.framework.ListElement.realiseMorphology()
+	simplenlg.framework.ListElement.realiseSyntax()
+	simplenlg.framework.CoordinatedPhraseElement.realiseMorphology()
+	simplenlg.framework.CoordinatedPhraseElement.realiseSyntax()
+	simplenlg.framework.CoordinatedPhraseElement.getAdditionCoordConjunction()
+	simplenlg.framework.CoordinatedPhraseElement.determineCoordinationGender(NLGElement newCoordinate)
+	simplenlg.framework.CoordinatedPhraseElement.determineCoordinationPerson(NLGElement newCoordinate)
+	simplenlg.framework.CoordinatedPhraseElement.countWords()
+	simplenlg.framework.CoordinatedPhraseElement.checkIfNeOnlyNegation()
+	simplenlg.framework.PhraseElement.realiseSyntax()
+	simplenlg.framework.PhraseElement.clearModifiers()
+	simplenlg.framework.NLGFactory.getLanguage()
+	simplenlg.framework.NLGFactory.getLexicon()
+	simplenlg.framework.WordElement.getLexicon()
+	simplenlg.framework.WordElement.getLanguage()
+	simplenlg.framework.InflectedWordElement.getLexicon()
+	simplenlg.framework.NLGElement.getLexicon()
+	simplenlg.framework.NLGElement.checkIfNeOnlyNegation()
+	simplenlg.framework.InflectedWordElement.getLanguage()
+	simplenlg.framework.InflectedWordElement.getMorphologyProcessor()
+	simplenlg.framework.InflectedWordElement.getMorphologyProcessor(Language language)
+	simplenlg.framework.NLGElement.getLanguage()
+	simplenlg.phrasespec.SPhraseSpec.clearModifiers()
+	simplenlg.phrasespec.SPhraseSpec.addPreModifier(String)
+	simplenlg.phrasespec.SPhraseSpec.addPostModifier(String)
+	simplenlg.phrasespec.VPPhraseSpec.addPreModifier(String)
+	simplenlg.phrasespec.VPPhraseSpec.addPostModifier(String)
+	simplenlg.phrasespec.NPPhraseSpec.NPPhraseSpec(NPPhraseSpec)
+	simplenlg.phrasespec.NPPhraseSpec.checkIfNeOnlyNegation()
+	simplenlg.phrasespec.NPPhraseSpec.addPreModifier(String newPreModifier)
+	simplenlg.phrasespec.PPPhraseSpec.checkIfNeOnlyNegation()
+	simplenlg.lexicon.Lexicon.Lexicon(...)
+	simplenlg.lexicon.Lexicon.getLanguage()
+	simplenlg.lexicon.Lexicon.getAdditionCoordConjunction()
+	simplenlg.lexicon.Lexicon.getPassivePreposition()
+	simplenlg.lexicon.Lexicon.getWord(category, features)
+	simplenlg.lexicon.Lexicon.getWords(category, features)
+	simplenlg.lexicon.Lexicon.hasWord(category, features)
+	simplenlg.lexicon.Lexicon.getDefaultComplementiser()
+	simplenlg.lexicon.XMLLexicon.XMLLexicon(...) (constructors with language)
+	simplenlg.lexicon.XMLLexicon.createWord(String baseForm, LexicalCategory category)
+	simplenlg.lexicon.XMLLexicon.createWord(String baseForm)
+	simplenlg.lexicon.XMLLexicon.getWords(category, features)
+	simplenlg.lexicon.XMLLexicon.getVariants(WordElement word)
+	simplenlg.lexicon.MultipleLexicon.createWord(String baseForm, LexicalCategory category)
+	simplenlg.lexicon.MultipleLexicon.createWord(String baseForm)
+	simplenlg.aggregation.AggregationRule.getFactory(NLGElement element)
+	simplenlg.framework.NLGElement.realiseMorphophonology()
+	simplenlg.framework.ListElement.realiseMorphophonology()
+	simplenlg.framework.StringElement.realiseMorphophonology()
+
+added getLeftMostStringElement() and getRightMostStringElement()
+	in NLGElement and StringElement
+added getRightMostTerminalElement()
+	in NLGElement, InflectedWordElement and StringElement
+
+added to StringElement :
+	morphophonologyRuleSets
+	getMorphophonologyRuleSet(Language language)
+	getMorphophonologyRuleSet()
+	getLexicon()
+	getLanguage()
+
+added 4 constructors with language to simplenlg.lexicon.MultipleLexicon :
+	MultipleLexicon(Language language)
+	MultipleLexicon(Language language, Lexicon... lexicons)
+	MultipleLexicon(String languageCode)
+	MultipleLexicon(String languageCode, Lexicon... lexicons)
+
+added constructor :
+	simplenlg.framework.StringElement.StringElement(String, InflectedWordElement) and changed calls to String only constructor to this one in InflectedWord.realiseMorphology() and in the French MorphologyRules and English NonStaticMorphologyRules
+
+added constructor :
+	simplenlg.framework.ListElement.ListElement(PhraseElement phrase)
+	and replaced calls to the empty constructor with calls to this one in the nonstatic english syntax helpers
+
+added copy constructor to
+	simplenlg.framework.CoordinatedPhraseElement
+
+added syntax helpers fields and methods to
+	simplenlg.framework.PhraseElement
+	simplenlg.framework.CoordinatedPhraseElement
+
+moved :
+	addSpecialCases()
+	getVariants(WordElement word), getVariant(WordElement word, String feature, String suffix), getForm(String base, String suffix)
+from
+	simplenlg.lexicon.XMLLexicon
+to
+	simplenlg.lexicon.english.XMLLexicon
+and changed private to protected
+
+modified constructors of
+	simplenlg.framework.WordElement : added lexicon
+
+added "this" as Lexicon to the calls of the constructors of WordElement in the folowing methods :
+	simplenlg.lexicon.Lexicon.createWord(String baseForm)
+	simplenlg.lexicon.Lexicon.createWord(String baseForm, LexicalCategory category)
+	simplenlg.lexicon.XMLLexicon.convertNodeToWord(Node wordNode)
+	simplenlg.lexicon.NIHDBLexicon.makeWord(LexRecord record)
+
+modified
+	simplenlg.framework.NLGFactory.NLGFactory(Lexicon)
+	simplenlg.framework.NLGFactory.NLGFactory()
+	simplenlg.framework.NLGFactory.setLexicon()
+	simplenlg.framework.NLGFactory.setDeterminer(Object newDeterminer)
+	simplenlg.framework.NLGFactory.createWord(Object word, LexicalCategory category)
+	simplenlg.framework.NLGFactory.createNounPhrase(Object specifier, Object noun)
+	simplenlg.framework.StringElement.toString()
+	simplenlg.framework.StringElement.printTree(String indent)
+	simplenlg.framework.DocumentElement.printTree(String indent)
+	simplenlg.framework.ListElement.printTree(String indent)
+	simplenlg.lexicon.MultipleLexicon.addFinalLexicon(Lexicon lex)
+	simplenlg.syntax.english.nonstatic.NounPhraseHelper.realiseHeadNoun(PhraseElement phrase,ListElement realisedElement)
+	simplenlg.framework.CoordinatedPhraseElement.printTree(String indent)
+	simplenlg.syntax.english.nonstatic.PhraseHelper.realiseComplements(PhraseElement phrase, ListElement realisedElement)
+	simplenlg.lexicon.XMLLexicon.createLexicon(...)
+	simplenlg.lexicon.XMLLexicon.IndexWord(WordElement)
+	simplenlg.lexicon.Lexicon.getDefaultLexicon()
+	syntax.english.nonstatic.VerbPhraseHelper.realiseComplements(...)
+	simplenlg.framework.InflectedWordElement.InflectedWordElement(WordElement word)
+	simplenlg.morphology.english.NonStaticMorphologyRules.doPronounMorphology(...)
+	simplenlg.framework.ListElement.ListElement(List<NLGElement> components)
+	simplenlg.framework.PhraseElement.addPreModifier(String newPreModifier)
+	simplenlg.framework.PhraseElement.addPostModifier(String newPreModifier)
+	simplenlg.framework.NLGFactory.WORD_REGEX
+	simplenlg.framework.NLGFactory.createNLGElement(Object element, LexicalCategory category)
+	simplenlg.phrasespec.SPhraseSpec(NLGFactory)
+	simplenlg.framework.PhraseElement.addComplement(String newComplement)
+	simplenlg.phrasespec.SPhraseSpec.setFeature(String featureName, Object featureValue)
+	simplenlg.framework.NLGFactory.createClause(Object subject, Object verb, Object directObject)
+	simplenlg.framework.CoordinatedPhraseElement.clearCoordinates()
+	simplenlg.phrasespec.VPPhraseSpec.setObject(Object object)
+	simplenlg.aggregation.ClauseCoordinationRule.apply()
+	simplenlg.framework.NLGFactory.createNounPhrase(...)
+	simplenlg.framework.NLGElement.setFactory(NLGFactory factory)
+	simplenlg.phrasespec.PPPhraseSpec.setObject(Object)
+
+added calls to setParent() in appropriate places in
+	simplenlg.framework.PhraseElement.setHead(Object newHead)
+	simplenlg.framework.PhraseElement.addComplement(NLGElement newComplement)
+	simplenlg.framework.PhraseElement.addComplement(String newComplement)
+	simplenlg.phrasespec.NPPhraseSpec.setSpecifier(Object specifier)
+	simplenlg.phrasespec.PPPhraseSpec.setObject(Object object)
+	simplenlg.phrasespec.SPhraseSpec.setSubject(Object subject)
+	simplenlg.framework.CoordinatedPhraseElement.addComplement(NLGElement newComplement)
+	simplenlg.framework.CoordinatedPhraseElement.addComplement(String newComplement)
+	simplenlg.framework.CoordinatedPhraseElement.addCoordinate(Object newCoordinate)
+	simplenlg.framework.CoordinatedPhraseElement.addPostModifier(NLGElement newPostModifier)
+	simplenlg.framework.CoordinatedPhraseElement.addPostModifier(String newPostModifier)
+	simplenlg.framework.CoordinatedPhraseElement.addPreModifier(NLGElement newPreModifier)
+	simplenlg.framework.CoordinatedPhraseElement.addPreModifier(String newPreModifier)
+	simplenlg.framework.DocumentElement.setComponents(List<NLGElement> components)
+	simplenlg.framework.DocumentElement.removeComponent(NLGElement textComponent)
+	simplenlg.framework.DocumentElement.addComponents(List<?> textComponents)
+	simplenlg.framework.DocumentElement.clearComponents()
+	simplenlg.framework.ListElement.setComponents(List<NLGElement> components)
+	simplenlg.framework.ListElement.addComponents(List<?> textComponents)
+	simplenlg.framework.ListElement.addComponents(NLGElement newComponent)
+	
+modified simplenlg.framework.CoordinatedPhraseElement constructors
+commented out simplenlg.framework.CoordinatedPhraseElement.PLURAL_COORDINATORS
+modified
+	simplenlg.framework.CoordinatedPhraseElement.checkIfPlural()
+	simplenlg.framework.CoordinatedPhraseElement.setConjunction(...)
+	simplenlg.framework.CoordinatedPhraseElement.getConjunction(...)
+	simplenlg.syntax.english.nonstatic.CoordinatedPhraseHelper.realise(CoordinatedPhraseElement phrase)
+
+moved some methods from the english syntax helpers to generic (some abstract) classes
+
+modified in english.OrthographyProcessor :
+	realiseList(StringBuffer realisation,
+			List<NLGElement> components, String listSeparator)
+	capitaliseFirstLetter(StringBuffer realisation)
+
+added a feature name to constant array vpFeatures in class simplenlg.phrasespec.SPhraseSpec
+
+moved addModifier(...) method from SPhraseSpec and VPPhraseSpec to ClauseHelper and VerbPhraseHelper, respectively
+
+added simplenlg.orthography.english.OrthographyHelper (code taken from OrthographyProcessor)
+
+added two constructors with factory argument to simplenlg.framework.DocumentElement
+
+replaced the pertinent occurences of this.factory in all subclasses of AggregationRule by a call to the newly created getFactory(NLGElement element)
+
+Some 'package.html' files were modified.
+
+2 ) Modifications to 'testsrc' directory
+--------------------------------------------------------------------------------
+I made only cosmetic changes to the contents of the simplenlg.test package proper, if any. All the tests in this package are still passed successfuly in SimpleNLG-EnFr, except XMLLexiconTest. (I didn't test the NIHDBLexicon, though, because I didn't have it.)
+
+packages added :
+
+simplenlg.examples
+	Contains some examples illlustrating the use of SimpleNLG-EnFr.
+	
+simplenlg.test.english
+	Contains the same tests that in the simplenlg.test, but slightly modified to account for the slightly different imports and Realiser constructor used with SimpleNLG-EnFr. All tests are passed successfuly. (I didn't test the NIHDBLexicon, though, because I didn't have it.)
+	
+simplenlg.test.french
+	Contains French tests, translated and adapted from the tests of simplenlg.test.english. Other French Specific tests were added. All tests are passed successfuly.
+
+3) Other modifications
+--------------------------------------------------------------------------------
+The 'default-french-lexicon.xml' file was added to the 'res' directory.
+This file and the French manual 'SimpleNLG-EnFr_doc_francais.pdf' were added to the docs directory.
+The javadoc was generated anew.
+I added my name to the list of contributors in the license file and modified all license headers in source files accordingly.
+
+
