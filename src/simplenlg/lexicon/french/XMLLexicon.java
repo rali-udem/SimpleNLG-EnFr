@@ -20,6 +20,7 @@
 package simplenlg.lexicon.french;
 
 import java.io.File;
+import java.io.InputStream;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.Set;
@@ -46,7 +47,7 @@ import simplenlg.features.french.PronounType;
 
 /**
  * Extension of simplenlg.lexicon.XMLLexicon for French.
- * 
+ *
  * @author vaudrypl
  *
  */
@@ -58,7 +59,7 @@ public class XMLLexicon extends simplenlg.lexicon.XMLLexicon {
 
 	/**
 	 * Load an XML Lexicon from a named file
-	 * 
+	 *
 	 * @param filename
 	 */
 	public XMLLexicon(String filename) {
@@ -67,7 +68,7 @@ public class XMLLexicon extends simplenlg.lexicon.XMLLexicon {
 
 	/**
 	 * Load an XML Lexicon from a File
-	 * 
+	 *
 	 * @param file
 	 */
 	public XMLLexicon(File file) {
@@ -76,12 +77,16 @@ public class XMLLexicon extends simplenlg.lexicon.XMLLexicon {
 
 	/**
 	 * Load an XML Lexicon from a URI
-	 * 
+	 *
 	 * @param lexiconURI
 	 */
 	public XMLLexicon(URI lexiconURI) {
 		super(Language.FRENCH, lexiconURI);
 	}
+
+	public XMLLexicon(InputStream lexiconStream) {
+        super(Language.FRENCH, lexiconStream);
+    }
 
 	public XMLLexicon() {
 		super(Language.FRENCH);
@@ -90,7 +95,7 @@ public class XMLLexicon extends simplenlg.lexicon.XMLLexicon {
 	/**
 	 * create a simplenlg WordElement from a Word node in a lexicon XML file
 	 * based on superclass
-	 * 
+	 *
 	 * @param wordNode
 	 * @return
 	 * @throws XPathUtilException
@@ -98,49 +103,49 @@ public class XMLLexicon extends simplenlg.lexicon.XMLLexicon {
 	@Override
 	protected WordElement convertNodeToWord(Node wordNode) {
 		WordElement word = super.convertNodeToWord( wordNode );
-		
+
 		// converts String to Gender value for feature LexicalFeature.GENDER
 		if (word.hasFeature(LexicalFeature.GENDER)) {
 			String stringValue = word.getFeatureAsString(LexicalFeature.GENDER);
 			Gender genderValue = Gender.valueOf(stringValue.toUpperCase());
 			word.setFeature(LexicalFeature.GENDER, genderValue);
 		}
-		
+
 		// converts String to NumberAgreement value for feature Feature.NUMBER
 		if (word.hasFeature(Feature.NUMBER)) {
 			String stringValue = word.getFeatureAsString(Feature.NUMBER);
 			NumberAgreement numberValue = NumberAgreement.valueOf(stringValue.toUpperCase());
 			word.setFeature(Feature.NUMBER, numberValue);
 		}
-		
+
 		// converts String to Person value for feature Feature.PERSON
 		if (word.hasFeature(Feature.PERSON)) {
 			String stringValue = word.getFeatureAsString(Feature.PERSON);
 			Person personValue = Person.valueOf(stringValue.toUpperCase());
 			word.setFeature(Feature.PERSON, personValue);
 		}
-		
+
 		// converts String to DiscourseFunction value for feature InternalFeature.DISCOURSE_FUNCTION
 		if (word.hasFeature(InternalFeature.DISCOURSE_FUNCTION)) {
 			String stringValue = word.getFeatureAsString(InternalFeature.DISCOURSE_FUNCTION);
 			DiscourseFunction functionValue = DiscourseFunction.valueOf(stringValue.toUpperCase());
 			word.setFeature(InternalFeature.DISCOURSE_FUNCTION, functionValue);
 		}
-		
+
 		// converts String to PronounType value for feature FrenchLexicalFeature.PRONOUN_TYPE
 		if (word.hasFeature(FrenchLexicalFeature.PRONOUN_TYPE)) {
 			String stringValue = word.getFeatureAsString(FrenchLexicalFeature.PRONOUN_TYPE);
 			PronounType pronounType = PronounType.valueOf(stringValue.toUpperCase());
 			word.setFeature(FrenchLexicalFeature.PRONOUN_TYPE, pronounType);
 		}
-		
+
 		return word;
 	}
-	
+
 	/**
 	 * routine for getting morph variants
 	 * based on English for now, should be augmented
-	 * 
+	 *
 	 * @param word
 	 * @return set of variants of the word
 	 */
@@ -148,7 +153,7 @@ public class XMLLexicon extends simplenlg.lexicon.XMLLexicon {
 	protected Set<String> getVariants(WordElement word) {
 		// base form of the word added by superclass
 		Set<String> variants = super.getVariants(word);
-		
+
 		ElementCategory category = word.getCategory();
 		if (category instanceof LexicalCategory) {
 			InflectedWordElement inflected = new InflectedWordElement(word);
@@ -209,7 +214,7 @@ public class XMLLexicon extends simplenlg.lexicon.XMLLexicon {
 					}
 				}
 				break;
-			
+
 			default:
 				// only base needed for other forms
 				break;
@@ -217,10 +222,10 @@ public class XMLLexicon extends simplenlg.lexicon.XMLLexicon {
 		}
 		return variants;
 	}
-	
+
 	/**
 	 * Checks if a feature is not empty before adding it to the variants set.
-	 * 
+	 *
 	 * @param variants	set of variants of the word, may already contain elements
 	 * @param word
 	 * @param feature	feature potentially containing a variant of the word
@@ -233,7 +238,7 @@ public class XMLLexicon extends simplenlg.lexicon.XMLLexicon {
 			variants.add(featureString);
 		}
 	}
-	
+
 	protected void addVarriant(Set<String> variants, InflectedWordElement inflected) {
 		variants.add( inflected.realiseMorphology().getRealisation() );
 	}

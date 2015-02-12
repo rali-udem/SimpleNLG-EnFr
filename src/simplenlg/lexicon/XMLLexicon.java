@@ -19,6 +19,7 @@
 package simplenlg.lexicon;
 
 import java.io.File;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -48,9 +49,9 @@ import simplenlg.framework.WordElement;
 /**
  * This class loads words from an XML lexicon. All features specified in the
  * lexicon are loaded
- * 
+ *
  * @author ereiter
- * 
+ *
  */
 public class XMLLexicon extends Lexicon {
 
@@ -78,14 +79,14 @@ public class XMLLexicon extends Lexicon {
 	// added by vaudrypl
 	protected Map<LexicalCategory, List<WordElement>> indexByCategory; // map from variants
 
-	
+
 	/**********************************************************************/
 	// constructors
 	/**********************************************************************/
 
 	/**
 	 * Load an XML Lexicon from a named file
-	 * 
+	 *
 	 * @param filename
 	 */
 	public XMLLexicon(String filename) {
@@ -96,7 +97,7 @@ public class XMLLexicon extends Lexicon {
 
 	/**
 	 * Load an XML Lexicon from a File
-	 * 
+	 *
 	 * @param file
 	 */
 	public XMLLexicon(File file) {
@@ -106,47 +107,46 @@ public class XMLLexicon extends Lexicon {
 
 	/**
 	 * Load an XML Lexicon from a URI
-	 * 
+	 *
 	 * @param lexiconURI
 	 */
 	public XMLLexicon(URI lexiconURI) {
 		super();
 		createLexicon(lexiconURI);
 	}
-
 	public XMLLexicon() {
 		this(Language.DEFAULT_LANGUAGE);
 	}
 
 	/**
 	 * Loads the default XML lexicon corresponding to a particular language 
-	 * 
+	 *
 	 * @param language
 	 */
 	public XMLLexicon(Language language) {
 		super(language);
 		if (language == null) language = Language.DEFAULT_LANGUAGE;
-		
+
 		String xmlLexiconFilePath;
 		switch (language) {
-		case FRENCH :
-			xmlLexiconFilePath = "/simplenlg/lexicon/french/default-french-lexicon.xml";
-			break;
-		default :
-			xmlLexiconFilePath = "/simplenlg/lexicon/default-lexicon.xml";
+			case FRENCH :
+				xmlLexiconFilePath = "/simplenlg/lexicon/french/default-french-lexicon.xml";
+				break;
+			default :
+				xmlLexiconFilePath = "/simplenlg/lexicon/default-lexicon.xml";
 		}
-		
+
 		try {
 			createLexicon(getClass().getResource(xmlLexiconFilePath).toURI());
 		} catch (URISyntaxException ex) {
 			System.out.println(ex.toString());
 		}
 	}
-	
+
 	/**
 	 * Load an XML Lexicon from a named file
 	 * with the associated language
-	 * 
+	 *
 	 * @param language
 	 *            the associated language
 	 * @param filename
@@ -161,7 +161,7 @@ public class XMLLexicon extends Lexicon {
 	/**
 	 * Load an XML Lexicon from a named file
 	 * with the ISO 639-1 two letter code of the associated language 
-	 * 
+	 *
 	 * @param language
 	 *            the associated language ISO 639-1 two letter code
 	 * @param filename
@@ -176,7 +176,7 @@ public class XMLLexicon extends Lexicon {
 	/**
 	 * Load an XML Lexicon from a file
 	 * with the associated language
-	 * 
+	 *
 	 * @param language
 	 *            the associated language
 	 * @param file
@@ -190,7 +190,7 @@ public class XMLLexicon extends Lexicon {
 	/**
 	 * Load an XML Lexicon from a file
 	 * with the ISO 639-1 two letter code of the associated language 
-	 * 
+	 *
 	 * @param language
 	 *            the associated language ISO 639-1 two letter code
 	 * @param file
@@ -204,7 +204,7 @@ public class XMLLexicon extends Lexicon {
 	/**
 	 * Load an XML Lexicon from a URI
 	 * with the associated language
-	 * 
+	 *
 	 * @param language
 	 *            the associated language
 	 * @param lexiconURI
@@ -218,7 +218,7 @@ public class XMLLexicon extends Lexicon {
 	/**
 	 * Load an XML Lexicon from a URI
 	 * with the ISO 639-1 two letter code of the associated language 
-	 * 
+	 *
 	 * @param language
 	 *            the associated language ISO 639-1 two letter code
 	 * @param lexiconURI
@@ -230,51 +230,71 @@ public class XMLLexicon extends Lexicon {
 	}
 
 	/**
-	 * method to actually load and index the lexicon from a URI
-	 * 
-	 * vaudrypl removed call to addSpecialCases() and moved this
-	 * method to simplenlg.lexicon.english.XMLLexicon
-	 * 
-	 * @param uri
-	 */
-	private void createLexicon(URI lexiconURI) {
-		// initialise objects
-		words = new HashSet<WordElement>();
-		indexByID = new HashMap<String, WordElement>();
-		indexByBase = new HashMap<String, List<WordElement>>();
-		indexByVariant = new HashMap<String, List<WordElement>>();
-		// added by vaudrypl
-		indexByCategory = new EnumMap<LexicalCategory, List<WordElement>>(LexicalCategory.class);
+     * Load an XML Lexicon from an Input Stream
+     * @param language
+     *            the associated language ISO 639-1 two letter code
+     * @param lexiconStream
+     * @author amanning
+     */
+    public XMLLexicon(Language language, InputStream lexiconStream) {
+        super(language);
+        createLexicon(lexiconStream);
+    }
 
-		try {
-			DocumentBuilderFactory factory = DocumentBuilderFactory
-					.newInstance();
-			DocumentBuilder builder = factory.newDocumentBuilder();
-			Document doc = builder.parse(lexiconURI.toString());
+	/**
+     * method to actually load and index the lexicon from a URI
+     *
+     * vaudrypl removed call to addSpecialCases() and moved this
+     * method to simplenlg.lexicon.english.XMLLexicon
+     *
+     * @param uri
+     */
+    private void createLexicon(Object lexicon) {
+        // initialise objects
+        words = new HashSet<WordElement>();
+        indexByID = new HashMap<String, WordElement>();
+        indexByBase = new HashMap<String, List<WordElement>>();
+        indexByVariant = new HashMap<String, List<WordElement>>();
+        // added by vaudrypl
+        indexByCategory = new EnumMap<LexicalCategory, List<WordElement>>(LexicalCategory.class);
 
-			if (doc != null) {
-				Element lexRoot = doc.getDocumentElement();
-				NodeList wordNodes = lexRoot.getChildNodes();
-				for (int i = 0; i < wordNodes.getLength(); i++) {
-					Node wordNode = wordNodes.item(i);
-					// ignore things that aren't elements
-					if (wordNode.getNodeType() == Node.ELEMENT_NODE) {
-						WordElement word = convertNodeToWord(wordNode);
-						if (word != null) {
-							words.add(word);
-							IndexWord(word);
-						}
-					}
-				}
-			}
-		} catch (Exception ex) {
-			System.out.println(ex.toString());
-		}
-	}
+        try {
+            DocumentBuilderFactory factory = DocumentBuilderFactory
+                    .newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+
+            Document doc;
+            if(lexicon instanceof URI) {
+                doc = builder.parse(lexicon.toString());
+            } else if (lexicon instanceof  InputStream){
+                doc = builder.parse((InputStream) lexicon);
+            } else {
+                throw new IllegalArgumentException("lexicon type is not supported.");
+            }
+
+            if (doc != null) {
+                Element lexRoot = doc.getDocumentElement();
+                NodeList wordNodes = lexRoot.getChildNodes();
+                for (int i = 0; i < wordNodes.getLength(); i++) {
+                    Node wordNode = wordNodes.item(i);
+                    // ignore things that aren't elements
+                    if (wordNode.getNodeType() == Node.ELEMENT_NODE) {
+                        WordElement word = convertNodeToWord(wordNode);
+                        if (word != null) {
+                            words.add(word);
+                            IndexWord(word);
+                        }
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            System.out.println(ex.toString());
+        }
+    }
 
 	/**
 	 * create a simplenlg WordElement from a Word node in a lexicon XML file
-	 * 
+	 *
 	 * @param wordNode
 	 * @return
 	 * @throws XPathUtilException
@@ -285,7 +305,7 @@ public class XMLLexicon extends Lexicon {
 	/*private*/ protected WordElement convertNodeToWord(Node wordNode) {
 		// if this isn't a Word node, ignore it
 		if (!wordNode.getNodeName().equalsIgnoreCase(XML_WORD))
-			return null;		
+			return null;
 
 		// // if there is no base, flag an error and return null
 		// String base = XPathUtil.extractValue(wordNode, Constants.XML_BASE);
@@ -297,7 +317,7 @@ public class XMLLexicon extends Lexicon {
 		// create word
 		WordElement word = new WordElement(this);
 		List<String> inflections = new ArrayList<String>();
-		
+
 		// now copy features
 		NodeList nodes = wordNode.getChildNodes();
 		for (int i = 0; i < nodes.getLength(); i++) {
@@ -336,15 +356,15 @@ public class XMLLexicon extends Lexicon {
 			}
 
 		}
-		
+
 		//if no infl specified, assume regular
 		if(inflections.isEmpty()) {
 			inflections.add("reg");
-		} 
-		
+		}
+
 		//default inflection code is "reg" if we have it, else random pick form infl codes available
 		String defaultInfl = inflections.contains("reg") ? "reg" : inflections.get(0);
-		
+
 		word.setFeature(LexicalFeature.INFLECTIONS, inflections);
 		word.setFeature(LexicalFeature.DEFAULT_INFL, defaultInfl);
 
@@ -354,7 +374,7 @@ public class XMLLexicon extends Lexicon {
 
 	/**
 	 * add word to internal indices
-	 * 
+	 *
 	 * @param word
 	 */
 	private void IndexWord(WordElement word) {
@@ -408,13 +428,13 @@ public class XMLLexicon extends Lexicon {
 
 	/**
 	 * convenience method to update an index
-	 * 
+	 *
 	 * @param word
 	 * @param base
 	 * @param index
 	 */
 	protected /*private*/ void updateIndex(WordElement word, String base,
-			Map<String, List<WordElement>> index) {
+										   Map<String, List<WordElement>> index) {
 		if (!index.containsKey(base))
 			index.put(base, new ArrayList<WordElement>());
 		index.get(base).add(word);
@@ -422,7 +442,7 @@ public class XMLLexicon extends Lexicon {
 
 	/**
 	 * creates a default WordElement and adds it to the lexicon
-	 * 
+	 *
 	 * @param baseForm
 	 *            - base form of word
 	 * @param category
@@ -442,7 +462,7 @@ public class XMLLexicon extends Lexicon {
 
 	/**
 	 * creates a default WordElement and adds it to the lexicon
-	 * 
+	 *
 	 * @param baseForm
 	 *            - base form of word
 	 * @return WordElement entry for specified info
@@ -474,14 +494,14 @@ public class XMLLexicon extends Lexicon {
 
 	/**
 	 * get matching keys from an index map
-	 * 
+	 *
 	 * @param indexKey
 	 * @param category
 	 * @param indexMap
 	 * @return
 	 */
 	private List<WordElement> getWordsFromIndex(String indexKey,
-			LexicalCategory category, Map<String, List<WordElement>> indexMap) {
+												LexicalCategory category, Map<String, List<WordElement>> indexMap) {
 		List<WordElement> result = new ArrayList<WordElement>();
 
 		// case 1: unknown, return empty list
@@ -492,7 +512,7 @@ public class XMLLexicon extends Lexicon {
 		if (category == LexicalCategory.ANY)
 			return indexMap.get(indexKey);
 
-		// case 3: other category, search for match
+			// case 3: other category, search for match
 		else
 			for (WordElement word : indexMap.get(indexKey))
 				if (word.getCategory() == category)
@@ -522,7 +542,7 @@ public class XMLLexicon extends Lexicon {
 	 */
 	@Override
 	public List<WordElement> getWordsFromVariant(String variant,
-			LexicalCategory category) {
+												 LexicalCategory category) {
 		return getWordsFromIndex(variant, category, indexByVariant);
 	}
 
@@ -531,17 +551,17 @@ public class XMLLexicon extends Lexicon {
 	 * provided. If some of the features provided have a value of null or Boolean.FALSE,
 	 * This method will also include words who don't have those features at all.
 	 * This allows default values for features not determined by the word. 
-	 * 
+	 *
 	 * @param category	category of the returned WordElement
 	 * @param features	features and their corrsponding values that
 	 *					the WordElement returned must have (it can have others)
 	 * @return			list of all WordElements found that matches the argument
-	 * 
+	 *
 	 * @author vaudrypl
 	 */
 	@Override
 	public List<WordElement> getWords(LexicalCategory category,
-			Map<String, Object> features) {
+									  Map<String, Object> features) {
 		List<WordElement> result = new ArrayList<WordElement>();
 		Collection<WordElement> collection = null;
 		Iterator<WordElement> iterator = null;
@@ -552,9 +572,9 @@ public class XMLLexicon extends Lexicon {
 		} else if (indexByCategory.containsKey(category)) {
 			collection = indexByCategory.get(category);
 		}
-		
+
 		if (collection != null) iterator = collection.iterator();
-		
+
 		// if the index by category doesn't contain the category wanted,
 		// skip this part and return an empty list
 		if (iterator != null) {
@@ -575,9 +595,9 @@ public class XMLLexicon extends Lexicon {
 					doesn't have this feature at all.
 	*/				boolean addWord = true;
 					for (Map.Entry<String, Object> entry : featuresToCheck) {
-						if ( !( currentFeaturesSet.contains( entry ) || 
-							((entry.getValue() == null || entry.getValue() == Boolean.FALSE)
-									&& !currentFeaturesMap.containsKey(entry.getKey())) ) ) {
+						if ( !( currentFeaturesSet.contains( entry ) ||
+								((entry.getValue() == null || entry.getValue() == Boolean.FALSE)
+										&& !currentFeaturesMap.containsKey(entry.getKey())) ) ) {
 							addWord = false;
 							break;
 						}
