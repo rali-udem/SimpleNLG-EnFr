@@ -114,13 +114,12 @@ public class XMLLexicon extends Lexicon {
 		super();
 		createLexicon(lexiconURI);
 	}
-
 	public XMLLexicon() {
 		this(Language.DEFAULT_LANGUAGE);
 	}
 
 	/**
-	 * Loads the default XML lexicon corresponding to a particular language
+	 * Loads the default XML lexicon corresponding to a particular language 
 	 *
 	 * @param language
 	 */
@@ -161,7 +160,7 @@ public class XMLLexicon extends Lexicon {
 
 	/**
 	 * Load an XML Lexicon from a named file
-	 * with the ISO 639-1 two letter code of the associated language
+	 * with the ISO 639-1 two letter code of the associated language 
 	 *
 	 * @param language
 	 *            the associated language ISO 639-1 two letter code
@@ -190,7 +189,7 @@ public class XMLLexicon extends Lexicon {
 
 	/**
 	 * Load an XML Lexicon from a file
-	 * with the ISO 639-1 two letter code of the associated language
+	 * with the ISO 639-1 two letter code of the associated language 
 	 *
 	 * @param language
 	 *            the associated language ISO 639-1 two letter code
@@ -218,7 +217,7 @@ public class XMLLexicon extends Lexicon {
 
 	/**
 	 * Load an XML Lexicon from a URI
-	 * with the ISO 639-1 two letter code of the associated language
+	 * with the ISO 639-1 two letter code of the associated language 
 	 *
 	 * @param language
 	 *            the associated language ISO 639-1 two letter code
@@ -231,67 +230,67 @@ public class XMLLexicon extends Lexicon {
 	}
 
 	/**
-	 * Load an XML Lexicon from an Input Stream
-	 * @param language
-	 *            the associated language ISO 639-1 two letter code
-	 * @param lexiconStream
-	 * @author amanning
-	 */
-	public XMLLexicon(Language language, InputStream lexiconStream) {
-		super(language);
-		createLexicon(lexiconStream);
-	}
+     * Load an XML Lexicon from an Input Stream
+     * @param language
+     *            the associated language ISO 639-1 two letter code
+     * @param lexiconStream
+     * @author amanning
+     */
+    public XMLLexicon(Language language, InputStream lexiconStream) {
+        super(language);
+        createLexicon(lexiconStream);
+    }
 
 	/**
-	 * method to actually load and index the lexicon from a URI
-	 *
-	 * vaudrypl removed call to addSpecialCases() and moved this
-	 * method to simplenlg.lexicon.english.XMLLexicon
-	 *
-	 * @param uri
-	 */
-	private void createLexicon(Object lexicon) {
-		// initialise objects
-		words = new HashSet<WordElement>();
-		indexByID = new HashMap<String, WordElement>();
-		indexByBase = new HashMap<String, List<WordElement>>();
-		indexByVariant = new HashMap<String, List<WordElement>>();
-		// added by vaudrypl
-		indexByCategory = new EnumMap<LexicalCategory, List<WordElement>>(LexicalCategory.class);
+     * method to actually load and index the lexicon from a URI
+     *
+     * vaudrypl removed call to addSpecialCases() and moved this
+     * method to simplenlg.lexicon.english.XMLLexicon
+     *
+     * @param uri
+     */
+    private void createLexicon(Object lexicon) {
+        // initialise objects
+        words = new HashSet<WordElement>();
+        indexByID = new HashMap<String, WordElement>();
+        indexByBase = new HashMap<String, List<WordElement>>();
+        indexByVariant = new HashMap<String, List<WordElement>>();
+        // added by vaudrypl
+        indexByCategory = new EnumMap<LexicalCategory, List<WordElement>>(LexicalCategory.class);
 
-		try {
-			DocumentBuilderFactory factory = DocumentBuilderFactory
-					.newInstance();
-			DocumentBuilder builder = factory.newDocumentBuilder();
+        try {
+            DocumentBuilderFactory factory = DocumentBuilderFactory
+                    .newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
 
-			Document doc;
-			if(lexicon instanceof URI) {
-				doc = builder.parse(lexicon.toString());
-			} else if (lexicon instanceof  InputStream){
-				doc = builder.parse((InputStream) lexicon);
-			} else {
-				throw new IllegalArgumentException("lexicon type is not supported.");
-			}
+            Document doc;
+            if(lexicon instanceof URI) {
+                doc = builder.parse(lexicon.toString());
+            } else if (lexicon instanceof  InputStream){
+                doc = builder.parse((InputStream) lexicon);
+            } else {
+                throw new IllegalArgumentException("lexicon type is not supported.");
+            }
 
-			if (doc != null) {
-				Element lexRoot = doc.getDocumentElement();
-				NodeList wordNodes = lexRoot.getChildNodes();
-				for (int i = 0; i < wordNodes.getLength(); i++) {
-					Node wordNode = wordNodes.item(i);
-					// ignore things that aren't elements
-					if (wordNode.getNodeType() == Node.ELEMENT_NODE) {
-						WordElement word = convertNodeToWord(wordNode);
-						if (word != null) {
-							words.add(word);
-							IndexWord(word);
-						}
-					}
-				}
-			}
-		} catch (Exception ex) {
-			System.out.println(ex.toString());
-		}
-	}
+            if (doc != null) {
+                Element lexRoot = doc.getDocumentElement();
+                NodeList wordNodes = lexRoot.getChildNodes();
+                for (int i = 0; i < wordNodes.getLength(); i++) {
+                    Node wordNode = wordNodes.item(i);
+                    // ignore things that aren't elements
+                    if (wordNode.getNodeType() == Node.ELEMENT_NODE) {
+                        WordElement word = convertNodeToWord(wordNode);
+                        if (word != null) {
+                            words.add(word);
+                            IndexWord(word);
+                        }
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            System.out.println(ex.toString());
+        }
+    }
 
 	/**
 	 * create a simplenlg WordElement from a Word node in a lexicon XML file
@@ -302,8 +301,8 @@ public class XMLLexicon extends Lexicon {
 	 *
 	 * access level modifier changed by Pierre-Luc Vaudry from private
 	 * to protected to allow overriding in subclass
-	 */
-    /*private*/ protected WordElement convertNodeToWord(Node wordNode) {
+	 */ 
+	/*private*/ protected WordElement convertNodeToWord(Node wordNode) {
 		// if this isn't a Word node, ignore it
 		if (!wordNode.getNodeName().equalsIgnoreCase(XML_WORD))
 			return null;
@@ -482,12 +481,12 @@ public class XMLLexicon extends Lexicon {
 	// main methods to get data from lexicon
 	/******************************************************************************************/
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see simplenlg.lexicon.Lexicon#getWords(java.lang.String,
-     * simplenlg.features.LexicalCategory)
-     */
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see simplenlg.lexicon.Lexicon#getWords(java.lang.String,
+	 * simplenlg.features.LexicalCategory)
+	 */
 	@Override
 	public List<WordElement> getWords(String baseForm, LexicalCategory category) {
 		return getWordsFromIndex(baseForm, category, indexByBase);
@@ -524,7 +523,7 @@ public class XMLLexicon extends Lexicon {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see simplenlg.lexicon.Lexicon#getWordsByID(java.lang.String)
 	 */
 	@Override
@@ -537,7 +536,7 @@ public class XMLLexicon extends Lexicon {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see simplenlg.lexicon.Lexicon#getWordsFromVariant(java.lang.String,
 	 * simplenlg.features.LexicalCategory)
 	 */
@@ -551,12 +550,12 @@ public class XMLLexicon extends Lexicon {
 	 * Looks for all words in the lexicon matching the category and features
 	 * provided. If some of the features provided have a value of null or Boolean.FALSE,
 	 * This method will also include words who don't have those features at all.
-	 * This allows default values for features not determined by the word.
+	 * This allows default values for features not determined by the word. 
 	 *
-	 * @param category  category of the returned WordElement
-	 * @param features  features and their corrsponding values that
-	 *                  the WordElement returned must have (it can have others)
-	 * @return          list of all WordElements found that matches the argument
+	 * @param category	category of the returned WordElement
+	 * @param features	features and their corrsponding values that
+	 *					the WordElement returned must have (it can have others)
+	 * @return			list of all WordElements found that matches the argument
 	 *
 	 * @author vaudrypl
 	 */
@@ -588,13 +587,13 @@ public class XMLLexicon extends Lexicon {
 					WordElement currentWord = iterator.next();
 					Map<String, Object> currentFeaturesMap = currentWord.getAllFeatures();
 					Set<Map.Entry<String, Object>> currentFeaturesSet = currentFeaturesMap.entrySet();
-
-    /*              Doesn't add a word to the list if the following is not true for
-                    at least one feature received as argument :
-                    The word has this feature and its corresponding value OR
-                    The value of this feature is null or Boolean.FALSE and the word
-                    doesn't have this feature at all.
-    */              boolean addWord = true;
+	
+	/*				Doesn't add a word to the list if the following is not true for
+					at least one feature received as argument :
+					The word has this feature and its corresponding value OR
+					The value of this feature is null or Boolean.FALSE and the word
+					doesn't have this feature at all.
+	*/				boolean addWord = true;
 					for (Map.Entry<String, Object> entry : featuresToCheck) {
 						if ( !( currentFeaturesSet.contains( entry ) ||
 								((entry.getValue() == null || entry.getValue() == Boolean.FALSE)

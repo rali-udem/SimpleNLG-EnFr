@@ -85,8 +85,8 @@ public class XMLLexicon extends simplenlg.lexicon.XMLLexicon {
 	}
 
 	public XMLLexicon(InputStream lexiconStream) {
-		super(Language.FRENCH, lexiconStream);
-	}
+        super(Language.FRENCH, lexiconStream);
+    }
 
 	public XMLLexicon() {
 		super(Language.FRENCH);
@@ -158,66 +158,66 @@ public class XMLLexicon extends simplenlg.lexicon.XMLLexicon {
 		if (category instanceof LexicalCategory) {
 			InflectedWordElement inflected = new InflectedWordElement(word);
 			switch ((LexicalCategory) category) {
-				case NOUN:
-					// singular and plural forms
-					addVarriant(variants, inflected);
-					inflected.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
-					addVarriant(variants, inflected);
-					break;
+			case NOUN:
+				// singular and plural forms
+				addVarriant(variants, inflected);
+				inflected.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
+				addVarriant(variants, inflected);
+				break;
 
-				case ADJECTIVE:
-				case DETERMINER:
-					// masculine singular and plural, feminine plural and singular forms
-					addVarriant(variants, inflected);
-					inflected.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
-					addVarriant(variants, inflected);
-					inflected.setFeature(LexicalFeature.GENDER, Gender.FEMININE);
-					addVarriant(variants, inflected);
-					inflected.setFeature(Feature.NUMBER, NumberAgreement.SINGULAR);
-					addVarriant(variants, inflected);
-					// optional variant : "liaison" form
-					addVarriant(variants, word, FrenchLexicalFeature.LIAISON);
-					break;
+			case ADJECTIVE:
+			case DETERMINER:
+				// masculine singular and plural, feminine plural and singular forms
+				addVarriant(variants, inflected);
+				inflected.setFeature(Feature.NUMBER, NumberAgreement.PLURAL);
+				addVarriant(variants, inflected);
+				inflected.setFeature(LexicalFeature.GENDER, Gender.FEMININE);
+				addVarriant(variants, inflected);
+				inflected.setFeature(Feature.NUMBER, NumberAgreement.SINGULAR);
+				addVarriant(variants, inflected);
+				// optional variant : "liaison" form
+				addVarriant(variants, word, FrenchLexicalFeature.LIAISON);
+				break;
 
-				case VERB:
-					// indicative, varrying tense, person and number
-					for (Tense tense : Tense.values()) {
-						for (Person person : Person.values()) {
-							for (NumberAgreement number : Arrays.asList(NumberAgreement.SINGULAR, NumberAgreement.PLURAL)) {
-								inflected.setFeature(Feature.TENSE, tense);
-								inflected.setFeature(Feature.PERSON, person);
-								inflected.setFeature(Feature.NUMBER, number);
-								addVarriant(variants, inflected);
-							}
-						}
-					}
-					// imperative present, varrying person and number
-					inflected.setFeature(Feature.FORM, Form.IMPERATIVE);
-					inflected.setFeature(Feature.TENSE, Tense.PRESENT);
+			case VERB:
+				// indicative, varrying tense, person and number
+				for (Tense tense : Tense.values()) {
 					for (Person person : Person.values()) {
 						for (NumberAgreement number : Arrays.asList(NumberAgreement.SINGULAR, NumberAgreement.PLURAL)) {
+							inflected.setFeature(Feature.TENSE, tense);
 							inflected.setFeature(Feature.PERSON, person);
 							inflected.setFeature(Feature.NUMBER, number);
 							addVarriant(variants, inflected);
 						}
 					}
-					// participles, varying gender and number
-					inflected = new InflectedWordElement(word);
-					for (Form form : Arrays.asList(Form.PRESENT_PARTICIPLE, Form.PAST_PARTICIPLE)) {
-						for (Gender gender : Arrays.asList(Gender.MASCULINE,Gender.FEMININE)) {
-							for (NumberAgreement number : Arrays.asList(NumberAgreement.SINGULAR, NumberAgreement.PLURAL)) {
-								inflected.setFeature(Feature.FORM, form);
-								inflected.setFeature(LexicalFeature.GENDER, gender);
-								inflected.setFeature(Feature.NUMBER, number);
-								addVarriant(variants, inflected);
-							}
+				}
+				// imperative present, varrying person and number
+				inflected.setFeature(Feature.FORM, Form.IMPERATIVE);
+				inflected.setFeature(Feature.TENSE, Tense.PRESENT);
+				for (Person person : Person.values()) {
+					for (NumberAgreement number : Arrays.asList(NumberAgreement.SINGULAR, NumberAgreement.PLURAL)) {
+						inflected.setFeature(Feature.PERSON, person);
+						inflected.setFeature(Feature.NUMBER, number);
+						addVarriant(variants, inflected);
+					}
+				}
+				// participles, varying gender and number
+				inflected = new InflectedWordElement(word);
+				for (Form form : Arrays.asList(Form.PRESENT_PARTICIPLE, Form.PAST_PARTICIPLE)) {
+					for (Gender gender : Arrays.asList(Gender.MASCULINE,Gender.FEMININE)) {
+						for (NumberAgreement number : Arrays.asList(NumberAgreement.SINGULAR, NumberAgreement.PLURAL)) {
+							inflected.setFeature(Feature.FORM, form);
+							inflected.setFeature(LexicalFeature.GENDER, gender);
+							inflected.setFeature(Feature.NUMBER, number);
+							addVarriant(variants, inflected);
 						}
 					}
-					break;
+				}
+				break;
 
-				default:
-					// only base needed for other forms
-					break;
+			default:
+				// only base needed for other forms
+				break;
 			}
 		}
 		return variants;
@@ -226,12 +226,12 @@ public class XMLLexicon extends simplenlg.lexicon.XMLLexicon {
 	/**
 	 * Checks if a feature is not empty before adding it to the variants set.
 	 *
-	 * @param variants  set of variants of the word, may already contain elements
+	 * @param variants	set of variants of the word, may already contain elements
 	 * @param word
-	 * @param feature   feature potentially containing a variant of the word
+	 * @param feature	feature potentially containing a variant of the word
 	 */
 	protected void addVarriant(Set<String> variants, WordElement word,
-							   String feature)
+			String feature)
 	{
 		String featureString = word.getFeatureAsString(feature);
 		if (featureString != null && !featureString.equals("")) {
