@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>SimpleNLG-EnFr</groupId>
+    <artifactId>SimpleNLG-EnFr</artifactId>
+    <version>1.1</version>
+    <packaging>jar</packaging>
+
+    <name>SimpleNLG-EnFr</name>
+    <description>SimpleNLG-EnFr 1.1 is a bilingual English/French adaption of SimpleNLG v4.2</description>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>lexAccess2011</groupId>
+            <artifactId>lexAccess2011</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/lexAccess2011dist.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>lexCheck2016</groupId>
+            <artifactId>lexCheck2016</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/lexCheck2006api.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>lvg2011api</groupId>
+            <artifactId>lvg2011api</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/lvg2011api.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.4</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <sourceDirectory>src</sourceDirectory>
+        <testSourceDirectory>testsrc</testSourceDirectory>
+        <resources>
+            <resource>
+                <directory>src/</directory>
+                <excludes>
+                    <exclude>**/*.java</exclude>
+                </excludes>
+            </resource>
+        </resources>
+    </build>
+
+</project>
