@@ -40,8 +40,8 @@ import simplenlg.lexicon.XMLLexicon;
 public class MultipleLexiconTest {
 
 	// NIH, XML lexicon location
-	static String DB_FILENAME = "E:\\NIHDB\\lexAccess2009";
-	static String XML_FILENAME = "E:\\NIHDB\\default-lexicon.xml";
+	static String DB_FILENAME = "res/NIHLexicon/lexAccess2011.data";
+	static String XML_FILENAME = "res/default-lexicon.xml";
 	
 	// multi lexicon
 	MultipleLexicon lexicon;
@@ -66,7 +66,10 @@ public class MultipleLexiconTest {
 	public void testMultipleSpecifics() {
 		// try to get word which is only in NIH lexicon
 		WordElement UK = lexicon.getWord("UK");
-		Assert.assertEquals("United Kingdom", UK.getFeatureAsString(LexicalFeature.ACRONYM_OF));
+
+		// Saad Mahamood: Removed this test as UK Acyromn doesn't just return United Kingdom in 2011 NIH lexicon:
+		//Assert.assertEquals("United Kingdom", UK.getFeatureAsString(LexicalFeature.ACRONYM_OF));
+		Assert.assertEquals(true, UK.getFeatureAsString(LexicalFeature.ACRONYM_OF).contains("United Kingdom"));
 
 		// test alwaysSearchAll flag
 		boolean alwaysSearchAll = lexicon.isAlwaysSearchAll();
