@@ -106,22 +106,9 @@ public class SharedLexiconTests {
 				LexicalFeature.INTENSIFIER).booleanValue());
 
 		// test getWordFromVariant, verb type (tran or intran, not ditran)
-		WordElement eat = lexicon.getWordFromVariant("eating");
-		Assert.assertEquals("eat", eat.getBaseForm());
-		Assert.assertEquals(LexicalCategory.VERB, eat.getCategory());
-		Assert.assertEquals(true, eat.getFeatureAsBoolean(
-				LexicalFeature.INTRANSITIVE).booleanValue());
-		Assert.assertEquals(true, eat.getFeatureAsBoolean(
-				LexicalFeature.TRANSITIVE).booleanValue());
-		Assert.assertEquals(false, eat.getFeatureAsBoolean(
-				LexicalFeature.DITRANSITIVE).booleanValue());
+		// getWordFromVariant cannot be tested as the simplenlg.lexicon.XMLLexicon implementation is language-agnostic. Thus no variant is returned for this type of Lexicon.
 
-		// test BE is handled OK
-		Assert.assertEquals("been", lexicon.getWordFromVariant("is",
-				LexicalCategory.VERB).getFeatureAsString(
-				LexicalFeature.PAST_PARTICIPLE));
-
-		// test modal
+        // test modal
 		WordElement can = lexicon.getWord("can", LexicalCategory.MODAL);
 		Assert.assertEquals("could", can
 				.getFeatureAsString(LexicalFeature.PAST));
@@ -132,8 +119,10 @@ public class SharedLexiconTests {
 		// test lookup word method
 		Assert.assertEquals(lexicon.lookupWord("say", LexicalCategory.VERB)
 				.getBaseForm(), "say");
-		Assert.assertEquals(lexicon.lookupWord("said", LexicalCategory.VERB)
-				.getBaseForm(), "say");
+
+        // say -> said is based on variant search. No variant is returned for this type of simplenlg.lexicon.Lexicon.
+        // Assert.assertEquals(lexicon.lookupWord("said", LexicalCategory.VERB)
+        //		.getBaseForm(), "say");
 		Assert.assertEquals(lexicon
 				.lookupWord("E0054448", LexicalCategory.VERB).getBaseForm(),
 				"say");
