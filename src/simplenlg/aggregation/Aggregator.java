@@ -122,11 +122,13 @@ public class Aggregator extends NLGModule {
 	 */
 	@Override
 	public List<NLGElement> realise(List<NLGElement> elements) {
+	    List<NLGElement> result = elements;
+	    
 		for (AggregationRule rule : this._rules) {
-			elements = rule.apply(elements);
+			result = rule.apply(result);
 		}
 
-		return elements;
+		return result;
 	}
 
 }
