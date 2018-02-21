@@ -17,25 +17,11 @@
 
     <dependencies>
         <dependency>
-            <groupId>lexAccess2011</groupId>
-            <artifactId>lexAccess2011</artifactId>
-            <version>1.0</version>
+            <groupId>gov.nih.nlm.nls.lexAccess.Api</groupId>
+            <artifactId>LexAccess2011dist</artifactId>
+            <version>0.0.1</version>
             <scope>system</scope>
             <systemPath>${basedir}/lib/lexAccess2011dist.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>lexCheck2016</groupId>
-            <artifactId>lexCheck2016</artifactId>
-            <version>1.0</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/lib/lexCheck2006api.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>lvg2011api</groupId>
-            <artifactId>lvg2011api</artifactId>
-            <version>1.0</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/lib/lvg2011api.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -46,22 +32,6 @@
     </dependencies>
 
     <build>
-        <sourceDirectory>src</sourceDirectory>
-        <testSourceDirectory>testsrc</testSourceDirectory>
-        <resources>
-            <resource>
-                <directory>src/</directory>
-                <excludes>
-                    <exclude>**/*.java</exclude>
-                </excludes>
-            </resource>
-            <resource>
-                <directory>testsrc/</directory>
-                <excludes>
-                    <exclude>**/*.java</exclude>
-                </excludes>
-            </resource>
-        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -74,7 +44,7 @@
                         <configuration>
                             <tasks>
                                 <echo message="***** Unziping NIH Lexicon..."/>
-                                <unzip src="${basedir}/res/NIHLexicon/lexAccess2011.data.zip" dest="${basedir}/res/NIHLexicon/" overwrite="true"/>
+                                <unzip src="${basedir}/src/test/resources/NIHLexicon/lexAccess2011.data.zip" dest="${basedir}/src/test/resources/NIHLexicon/" overwrite="true"/>
                             </tasks>
                         </configuration>
                         <goals>
@@ -87,7 +57,7 @@
                         <configuration>
                             <tasks>
                                 <echo message="***** Deleting NIH Lexicon..."/>
-                                <delete file="${basedir}/res/NIHLexicon/lexAccess2011.data"/>
+                                <delete file="${basedir}/src/test/resources/NIHLexicon/lexAccess2011.data"/>
                             </tasks>
                         </configuration>
                         <goals>

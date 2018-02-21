@@ -16,8 +16,11 @@
  *
  * Contributor(s): Ehud Reiter, Albert Gatt, Dave Wewstwater, Roman Kutlak, Margaret Mitchell, Pierre-Luc Vaudry.
  */
-package simplenlg.test.english;
+package simplenlg.test.french;
 
+
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import junit.framework.Assert;
 
@@ -25,13 +28,13 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import simplenlg.features.Gender;
 import simplenlg.features.LexicalFeature;
+import simplenlg.framework.Language;
 import simplenlg.framework.LexicalCategory;
 import simplenlg.framework.WordElement;
-import simplenlg.lexicon.Lexicon;
 import simplenlg.lexicon.MultipleLexicon;
-import simplenlg.lexicon.NIHDBLexicon;
-import simplenlg.lexicon.XMLLexicon;
+import simplenlg.lexicon.french.XMLLexicon;
 
 /**
  * @author D. Westwater, Data2Text Ltd
@@ -39,9 +42,8 @@ import simplenlg.lexicon.XMLLexicon;
  */
 public class MultipleLexiconTest {
 
-	// NIH, XML lexicon location
-	static String DB_FILENAME = "res/NIHLexicon/lexAccess2011.data";
-	static String XML_FILENAME = "res/default-lexicon.xml";
+	// XML lexicon location
+	static final String xmlLexiconFilePath = "test-secondary-french-lexicon.xml";
 	
 	// multi lexicon
 	MultipleLexicon lexicon;
@@ -49,7 +51,14 @@ public class MultipleLexiconTest {
 
 	@Before
 	public void setUp() throws Exception {
-		this.lexicon = new MultipleLexicon(new XMLLexicon(XML_FILENAME), new NIHDBLexicon(DB_FILENAME));
+		URI secondaryLexicon = null;
+		try {
+			secondaryLexicon = getClass().getClassLoader().getResource(xmlLexiconFilePath).toURI();
+		} catch (URISyntaxException ex) {
+			System.out.println(ex.toString());
+		}
+		this.lexicon = new MultipleLexicon(Language.FRENCH,
+				new XMLLexicon(), new XMLLexicon(secondaryLexicon));
 	}
 
 	@After
@@ -64,22 +73,31 @@ public class MultipleLexiconTest {
 	
 	@Test
 	public void testMultipleSpecifics() {
-		// try to get word which is only in NIH lexicon
-		WordElement UK = lexicon.getWord("UK");
+		// try to get a word which is only in default lexicon
+		WordElement souris = lexicon.getWord("souris");
+		Assert.assertEquals(Gender.FEMININE, souris.getFeature(LexicalFeature.GENDER));
+		Assert.assertEquals(Language.FRENCH, souris.getLanguage());
+		
+		// try to get a word which is only in secondary lexicon
+		WordElement imprimante = lexicon.getWord("imprimante");
+		Assert.assertEquals(Gender.FEMININE, imprimante.getFeature(LexicalFeature.GENDER));
+		Assert.assertEquals(Language.FRENCH, imprimante.getLanguage());
 
-		// Saad Mahamood: Removed this test as UK Acyromn doesn't just return United Kingdom in 2011 NIH lexicon:
-		//Assert.assertEquals("United Kingdom", UK.getFeatureAsString(LexicalFeature.ACRONYM_OF));
-		Assert.assertEquals(true, UK.getFeatureAsString(LexicalFeature.ACRONYM_OF).contains("United Kingdom"));
+		// try to get a word which doesn't exist in either lexicon
+		WordElement anticonst = lexicon.getWord("anticonstitutionnellement", LexicalCategory.ADVERB);
+		Assert.assertEquals(Language.FRENCH, anticonst.getLanguage());
 
 		// test alwaysSearchAll flag
 		boolean alwaysSearchAll = lexicon.isAlwaysSearchAll();
 		
-		// tree as noun exists in both, but as verb only in NIH
+		// "sourire" as verb exists in the default lexicon,
+		// but as noun only in secondary lexicon
 		lexicon.setAlwaysSearchAll(true);
-		Assert.assertEquals(3, lexicon.getWords("tree").size()); // 3 = once in XML plus twice in NIH
-
+		 // 2 = once in default plus once in secondary lexicon
+		Assert.assertEquals(2, lexicon.getWords("sourire").size());
+		
 		lexicon.setAlwaysSearchAll(false);
-		Assert.assertEquals(1, lexicon.getWords("tree").size());
+		Assert.assertEquals(1, lexicon.getWords("sourire").size());
 
 		// restore flag to original state
 		lexicon.setAlwaysSearchAll(alwaysSearchAll);	

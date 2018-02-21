@@ -17,7 +17,7 @@
  * Contributor(s): Ehud Reiter, Albert Gatt, Dave Wewstwater, Roman Kutlak, Margaret Mitchell, Pierre-Luc Vaudry.
  */
 
-package simplenlg.test;
+package simplenlg.test.english;
 
 import java.util.List;
 
@@ -48,7 +48,7 @@ public class NIHDBLexiconTest extends TestCase {
 	NIHDBLexicon lexicon = null;
 
 	// DB location -- change this to point to the lex access data dir
-	static String DB_FILENAME = "res/NIHLexicon/lexAccess2011.data";
+	static String DB_FILENAME = "src/test/resources/NIHLexicon/lexAccess2011.data";
 
 	@Override
 	@Before

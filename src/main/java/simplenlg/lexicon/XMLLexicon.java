@@ -130,14 +130,14 @@ public class XMLLexicon extends Lexicon {
 		String xmlLexiconFilePath;
 		switch (language) {
 		case FRENCH :
-			xmlLexiconFilePath = "/simplenlg/lexicon/french/default-french-lexicon.xml";
+			xmlLexiconFilePath = "default-french-lexicon.xml";
 			break;
 		default :
-			xmlLexiconFilePath = "/simplenlg/lexicon/default-lexicon.xml";
+			xmlLexiconFilePath = "default-lexicon.xml";
 		}
 		
 		try {
-			createLexicon(getClass().getResource(xmlLexiconFilePath).toURI());
+			createLexicon(getClass().getClassLoader().getResource(xmlLexiconFilePath).toURI());
 		} catch (URISyntaxException ex) {
 			System.out.println(ex.toString());
 		}
