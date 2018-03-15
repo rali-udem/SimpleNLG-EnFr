@@ -36,7 +36,7 @@ public class LexicalVariantsTests extends TestCase {
 	Realiser realiser;
 	
 	// DB location -- change this to point to the lex access data dir
-	static String DB_FILENAME = "res/NIHLexicon/lexAccess2011.data";
+	static String DB_FILENAME = "res/NIHLexicon/lexAccess2013.data";
 
 	@Override
 	@Before

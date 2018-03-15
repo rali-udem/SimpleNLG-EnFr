@@ -48,7 +48,7 @@ public class NIHDBLexiconTest extends TestCase {
 	NIHDBLexicon lexicon = null;
 
 	// DB location -- change this to point to the lex access data dir
-	static String DB_FILENAME = "src/test/resources/NIHLexicon/lexAccess2011.data";
+	static String DB_FILENAME = "src/test/resources/NIHLexicon/lexAccess2013.data";
 
 	@Override
 	@Before

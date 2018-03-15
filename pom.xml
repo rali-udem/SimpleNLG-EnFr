@@ -15,18 +15,23 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>clojars.org</id>
+            <url>https://repo.clojars.org</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
-            <groupId>gov.nih.nlm.nls.lexAccess.Api</groupId>
-            <artifactId>LexAccess2011dist</artifactId>
-            <version>0.0.1</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/lib/lexAccess2011dist.jar</systemPath>
+            <groupId>gov.nih.nlm.nls.lexaccess</groupId>
+            <artifactId>lexaccess-dist</artifactId>
+            <version>2013</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.4</version>
+            <version>4.12</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -44,7 +49,7 @@
                         <configuration>
                             <tasks>
                                 <echo message="***** Unziping NIH Lexicon..."/>
-                                <unzip src="${basedir}/src/test/resources/NIHLexicon/lexAccess2011.data.zip" dest="${basedir}/src/test/resources/NIHLexicon/" overwrite="true"/>
+                                <unzip src="${basedir}/src/test/resources/NIHLexicon/lexAccess2013.data.zip" dest="${basedir}/src/test/resources/NIHLexicon/" overwrite="true"/>
                             </tasks>
                         </configuration>
                         <goals>
@@ -57,7 +62,7 @@
                         <configuration>
                             <tasks>
                                 <echo message="***** Deleting NIH Lexicon..."/>
-                                <delete file="${basedir}/src/test/resources/NIHLexicon/lexAccess2011.data"/>
+                                <delete file="${basedir}/src/test/resources/NIHLexicon/lexAccess2013.data"/>
                             </tasks>
                         </configuration>
                         <goals>
