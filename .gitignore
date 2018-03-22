@@ -1,4 +1,6 @@
-res/NIHLexicon/lexAccess2011.data
+src/test/resources/NIHLexicon/lexAccess2013.data
+src/test/resources/NIHLexicon/lexAccess2013.log
+src/test/resources/NIHLexicon/lexAccess2013.lck
 /bin/
 .project
 .classpath
