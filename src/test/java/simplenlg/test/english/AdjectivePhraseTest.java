@@ -23,6 +23,7 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import simplenlg.features.Feature;
+import simplenlg.features.LexicalFeature;
 import simplenlg.framework.CoordinatedPhraseElement;
 import simplenlg.framework.PhraseElement;
 import simplenlg.framework.StringElement;
@@ -128,5 +129,22 @@ public class AdjectivePhraseTest extends SimpleNLG4TestBase {
 		Assert.assertEquals("John very quickly eats", this.realiser.realise( //$NON-NLS-1$
 				sent).getRealisation());
 
+	}
+
+	/**
+	 * Test for multiple adjective pre-modifiers with and without comma-separation.
+	 */
+	@Test
+	public void testMultipleModifiers() {
+		PhraseElement np = this.phraseFactory.createNounPhrase("the", "boat");
+		WordElement big = this.lexicon.getWord("big", LexicalCategory.ADJECTIVE);
+		np.addPreModifier(big);
+		WordElement beautiful = this.lexicon.getWord("beautiful", LexicalCategory.ADJECTIVE);
+		np.addPreModifier(beautiful);
+		Assert.assertEquals("the big, beautiful boat", this.realiser.realise(np).getRealisation());
+
+		//now we set the realiser not to separate using commas
+		big.setFeature(LexicalFeature.NO_COMMA, true);
+		Assert.assertEquals("the big beautiful boat", this.realiser.realise(np).getRealisation());
 	}
 }
