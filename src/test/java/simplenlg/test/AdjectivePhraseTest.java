@@ -24,6 +24,7 @@ import org.junit.Test;
 
 import simplenlg.features.Feature;
 import simplenlg.framework.CoordinatedPhraseElement;
+import simplenlg.framework.LexicalCategory;
 import simplenlg.framework.PhraseElement;
 import simplenlg.framework.StringElement;
 
@@ -121,4 +122,24 @@ public class AdjectivePhraseTest extends SimpleNLG4Test {
 				sent).getRealisation());
 
 	}
+
+    /**
+     * Test for multiple adjective modifiers with comma-separation. Example courtesy of William Bradshaw (Data2Text Ltd).
+     */
+    @Test
+    public void testMultipleModifiers() {
+        PhraseElement np = this.phraseFactory
+                .createNounPhrase(this.lexicon.getWord("message",
+                        LexicalCategory.NOUN));
+        np.addPreModifier(this.lexicon.getWord("active",
+                LexicalCategory.ADJECTIVE));
+        np.addPreModifier(this.lexicon.getWord("temperature",
+                LexicalCategory.ADJECTIVE));
+        Assert.assertEquals("active, temperature message", this.realiser.realise(np).getRealisation());
+
+        //now we set the realiser not to separate using commas
+        this.realiser.setCommaSepPremodifiers(false);
+        Assert.assertEquals("active temperature message", this.realiser.realise(np).getRealisation());
+
+    }
 }
