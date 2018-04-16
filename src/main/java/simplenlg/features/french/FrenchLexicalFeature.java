@@ -353,42 +353,7 @@ public abstract class FrenchLexicalFeature {
 	 * </table>
 	 */
 	public static final String CLITIC_RISING = "clitic_rising";
-	
-	/**
-	 * <p>
-	 * This flag determines if the comma must be ommited before a coordination conjunction
-	 * or after a front modifier.
-	 * </p>
-	 * <table border="1">
-	 * <tr>
-	 * <td><b>Feature name</b></td>
-	 * <td><em>no_comma</em></td>
-	 * </tr>
-	 * <tr>
-	 * <td><b>Expected type</b></td>
-	 * <td><code>Boolean</code></td>
-	 * </tr>
-	 * <tr>
-	 * <td><b>Created by</b></td>
-	 * <td>The information is read from Lexicons that support this feature
-	 * and can be set by the user.</td>
-	 * </tr>
-	 * <tr>
-	 * <td><b>Used by</b></td>
-	 * <td>The orthography methods.</td>
-	 * </tr>
-	 * <tr>
-	 * <td><b>Applies to</b></td>
-	 * <td>Conjunctions and word that are or can be front modifiers.</td>
-	 * </tr>
-	 * <tr>
-	 * <td><b>Default</b></td>
-	 * <td><code>Boolean.FALSE</code>.</td>
-	 * </tr>
-	 * </table>
-	 */
-	public static final String NO_COMMA = "no_comma";
-	
+
 	/**
 	 * <p>
 	 * This flag determines if the coordination conjunction must be repeated before each
