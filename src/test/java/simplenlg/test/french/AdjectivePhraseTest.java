@@ -23,6 +23,7 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import simplenlg.features.Feature;
+import simplenlg.features.LexicalFeature;
 import simplenlg.features.Tense;
 import simplenlg.framework.CoordinatedPhraseElement;
 import simplenlg.framework.PhraseElement;
@@ -152,5 +153,19 @@ public class AdjectivePhraseTest extends SimpleNLG4TestBase {
 		sent.addFrontModifier("fort");
 		Assert.assertEquals("fort, les chiennes ont jappé", //$NON-NLS-1$
 				this.realiser.realise(sent).getRealisation());
+	}
+
+	/**
+	 * Test for multiple adjective pre-modifiers without comma-separation. For symmetry with {@link simplenlg.test.english.AdjectivePhraseTest#testMultipleModifiers()}
+	 */
+	@Test
+	public void testMultipleModifiers() {
+		PhraseElement np = this.factory.createNounPhrase("le", "bateau");
+		WordElement beau = this.lexicon.getWord("beau", LexicalCategory.ADJECTIVE);
+		np.addPreModifier(beau);
+		WordElement grand = this.lexicon.getWord("grand", LexicalCategory.ADJECTIVE);
+		np.addPreModifier(grand);
+		Assert.assertEquals("le beau grand bateau", this.realiser.realise(np).getRealisation());
+
 	}
 }

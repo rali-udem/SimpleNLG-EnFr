@@ -584,6 +584,41 @@ public abstract class LexicalFeature {
 
 	/**
 	 * <p>
+	 * This flag determines if the comma must be ommited before a coordination conjunction,
+	 * after a front modifier or after a pre-modifier.
+	 * </p>
+	 * <table border="1">
+	 * <tr>
+	 * <td><b>Feature name</b></td>
+	 * <td><em>no_comma</em></td>
+	 * </tr>
+	 * <tr>
+	 * <td><b>Expected type</b></td>
+	 * <td><code>Boolean</code></td>
+	 * </tr>
+	 * <tr>
+	 * <td><b>Created by</b></td>
+	 * <td>The information is read from Lexicons that support this feature
+	 * and can be set by the user.</td>
+	 * </tr>
+	 * <tr>
+	 * <td><b>Used by</b></td>
+	 * <td>The orthography methods.</td>
+	 * </tr>
+	 * <tr>
+	 * <td><b>Applies to</b></td>
+	 * <td>Conjunctions and word that are or can be front modifiers or pre-modifiers.</td>
+	 * </tr>
+	 * <tr>
+	 * <td><b>Default</b></td>
+	 * <td><code>Boolean.FALSE</code>.</td>
+	 * </tr>
+	 * </table>
+	 */
+	public static final String NO_COMMA = "no_comma";
+
+	/**
+	 * <p>
 	 * This feature gives the past tense form of a verb. For example, the past
 	 * tense of <em>eat</em> is <em>ate</em>, the past tense of <em>walk</em> is
 	 * <em>walked</em>.

@@ -20,10 +20,7 @@ package simplenlg.orthography.french;
 
 import java.util.List;
 
-import simplenlg.features.DiscourseFunction;
-import simplenlg.features.Feature;
-import simplenlg.features.Form;
-import simplenlg.features.InternalFeature;
+import simplenlg.features.*;
 import simplenlg.features.french.FrenchLexicalFeature;
 import simplenlg.features.french.FrenchInternalFeature;
 import simplenlg.framework.ElementCategory;
@@ -78,7 +75,7 @@ public class OrthographyHelper extends simplenlg.orthography.english.Orthography
 					realisation.append(", "); //$NON-NLS-1$
 				} else {
 					// for conjunctions other than "et" and "ou"
-					if (!realisedChild.getFeatureAsBoolean(FrenchLexicalFeature.NO_COMMA)) {
+					if (!realisedChild.getFeatureAsBoolean(LexicalFeature.NO_COMMA)) {
 					realisation.append(", "); //$NON-NLS-1$
 					}
 					realisedChild = realisedChild.realiseOrthography();
@@ -151,7 +148,7 @@ public class OrthographyHelper extends simplenlg.orthography.english.Orthography
 
 				if ( !separatorAdded && (DiscourseFunction.FRONT_MODIFIER.equals(function)
 							|| DiscourseFunction.CUE_PHRASE.equals(function))
-						&& !thisElement.getFeatureAsBoolean(FrenchLexicalFeature.NO_COMMA)) {
+						&& !thisElement.getFeatureAsBoolean(LexicalFeature.NO_COMMA)) {
 					realisation.append(",");
 					separatorAdded = true;
 				}

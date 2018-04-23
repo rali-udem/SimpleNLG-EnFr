@@ -59,6 +59,38 @@ public class Realiser extends NLGModule {
 		setLexicon(lexicon);
 	}
 
+    /**
+     * Check whether this processor separates premodifiers using a comma.
+     *
+     * <br/>
+     * <strong>Implementation note:</strong> this method checks whether the
+     * {@link simplenlg.orthography.english.OrthographyProcessor} has the
+     * parameter set.
+     *
+     * @return <code>true</code> if premodifiers in the noun phrase are
+     *         comma-separated.
+     */
+    public boolean isCommaSepPremodifiers() {
+        return this.orthography == null ? false : this.orthography.isCommaSepPremodifiers();
+    }
+
+    /**
+     * Set whether to separate premodifiers using a comma. If <code>true</code>,
+     * premodifiers will be comma-separated, as in <i>the long, dark road</i>.
+     * If <code>false</code>, they won't. <br/>
+     * <strong>Implementation note:</strong>: this method sets the relevant
+     * parameter in the
+     * {@link simplenlg.orthography.english.OrthographyProcessor}.
+     *
+     * @param commaSepPremodifiers
+     *            the commaSepPremodifiers to set
+     */
+    public void setCommaSepPremodifiers(boolean commaSepPremodifiers) {
+        if(this.orthography != null) {
+            this.orthography.setCommaSepPremodifiers(commaSepPremodifiers);
+        }
+    }
+
 	@Override
 	public void initialise() {
 		this.morphology = new MorphologyProcessor();

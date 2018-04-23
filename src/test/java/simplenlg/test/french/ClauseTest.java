@@ -141,14 +141,14 @@ public class ClauseTest extends SimpleNLG4TestBase {
 						this.realiser.realise(this.s4).getRealisation());
 		
 		// without comma
-		this.s4.getFeatureAsElement(Feature.CUE_PHRASE).setFeature(FrenchLexicalFeature.NO_COMMA, true);
-		this.s4.getFrontModifiers().get(0).setFeature(FrenchLexicalFeature.NO_COMMA, true);
+		this.s4.getFeatureAsElement(Feature.CUE_PHRASE).setFeature(LexicalFeature.NO_COMMA, true);
+		this.s4.getFrontModifiers().get(0).setFeature(LexicalFeature.NO_COMMA, true);
 		Assert
 		.assertEquals(
 				"cependant demain Jane et André ramasseront les balles dans le magasin", //$NON-NLS-1$
 				this.realiser.realise(this.s4).getRealisation());
-		this.s4.getFeatureAsElement(Feature.CUE_PHRASE).setFeature(FrenchLexicalFeature.NO_COMMA, false);
-		this.s4.getFrontModifiers().get(0).setFeature(FrenchLexicalFeature.NO_COMMA, false);
+		this.s4.getFeatureAsElement(Feature.CUE_PHRASE).setFeature(LexicalFeature.NO_COMMA, false);
+		this.s4.getFrontModifiers().get(0).setFeature(LexicalFeature.NO_COMMA, false);
 	}
 
 	/**
@@ -456,7 +456,7 @@ public class ClauseTest extends SimpleNLG4TestBase {
 		SPhraseSpec avoir = factory.createClause("tu", "avoir", temps);
 		avoir.setFeature(Feature.TENSE, Tense.FUTURE);
 		avoir.addFrontModifier(partir);
-		partir.setFeature(FrenchLexicalFeature.NO_COMMA, true);
+		partir.setFeature(LexicalFeature.NO_COMMA, true);
 		AdvPhraseSpec temporalAdverb = factory.createAdverbPhrase("demain");
 		avoir.addFrontModifier(temporalAdverb);
 		Assert.assertEquals( "quand tu partiras demain, tu auras du beau temps",

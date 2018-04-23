@@ -55,12 +55,37 @@ import simplenlg.framework.StringElement;
  */
 public class OrthographyProcessor extends NLGModule {
 
-	@Override
+    private boolean commaSepPremodifiers; // set whether to separate
+                                          // premodifiers using commas
+
+    @Override
 	public void initialise() {
-		// No initialisation.
+        this.commaSepPremodifiers = true;
 	}
 
-	@Override
+    /**
+     * Check whether this processor separates premodifiers using a comma.
+     *
+     * @return <code>true</code> if premodifiers in the noun phrase are
+     *         comma-separated.
+     */
+    public boolean isCommaSepPremodifiers() {
+        return commaSepPremodifiers;
+    }
+
+    /**
+     * Set whether to separate premodifiers using a comma. If <code>true</code>,
+     * premodifiers will be comma-separated, as in <i>the long, dark road</i>.
+     * If <code>false</code>, they won't.
+     *
+     * @param commaSepPremodifiers
+     *            the commaSepPremodifiers to set
+     */
+    public void setCommaSepPremodifiers(boolean commaSepPremodifiers) {
+        this.commaSepPremodifiers = commaSepPremodifiers;
+    }
+
+    @Override
 	public NLGElement realise(NLGElement element) {
 		NLGElement realisedElement = null;
 
@@ -102,7 +127,7 @@ public class OrthographyProcessor extends NLGModule {
 						.getFeature(InternalFeature.DISCOURSE_FUNCTION);
 
 				if (DiscourseFunction.PRE_MODIFIER.equals(function)) {
-					realiseList(buffer, element.getChildren(), ",");
+                    realiseList(buffer, element.getChildren(), this.commaSepPremodifiers ? "," : "");
 				} else {
 					realiseList(buffer, element.getChildren(), "");
 				}

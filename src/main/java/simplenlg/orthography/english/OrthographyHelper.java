@@ -22,6 +22,7 @@ import java.util.List;
 
 import simplenlg.features.DiscourseFunction;
 import simplenlg.features.InternalFeature;
+import simplenlg.features.LexicalFeature;
 import simplenlg.framework.DocumentElement;
 import simplenlg.framework.ElementCategory;
 import simplenlg.framework.ListElement;
@@ -73,7 +74,9 @@ public class OrthographyHelper implements OrthographyHelperInterface {
 			Object function = children.isEmpty() ? null : children.get(0)
 					.getFeature(InternalFeature.DISCOURSE_FUNCTION);
 
-			if (DiscourseFunction.PRE_MODIFIER.equals(function)) {
+            if (!children.isEmpty()
+                    && DiscourseFunction.PRE_MODIFIER.equals(children.get(0).getFeature(InternalFeature.DISCOURSE_FUNCTION))
+                    && !children.get(0).getFeatureAsBoolean(LexicalFeature.NO_COMMA)) {
 				realiseList(buffer, element.getChildren(), ",");
 			} else {
 				realiseList(buffer, element.getChildren(), "");
