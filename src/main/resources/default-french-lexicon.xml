@@ -11794,6 +11794,8 @@
 		<category>adjective</category>
 		<id>faux_3</id>
 		<plural>faux</plural>
+		<feminine_singular>fausse</feminine_singular>
+		<feminine_plural>fausses</feminine_plural>
 	</word>
 	<word>
 		<base>faveur</base>
